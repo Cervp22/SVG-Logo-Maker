@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { Circle, Square, Triangle } = require("./lib/shapes");
+const { Circle, Square, Triangle } = require("./assets/shapes");
 const inquirer = require("inquirer");
 
 class Svg {
@@ -38,7 +38,7 @@ questions = [
   {
     type: "input",
     message: "Please enter color for logo",
-    naem: "logocolor",
+    name: "logocolor",
   },
 ];
 
@@ -52,22 +52,17 @@ function writeToFile(filename, data) {
   });
 }
 
-function generateLogo() {
+function logoGenerator() {
   var svgString = "";
   //questions prompt with inquirer
   inquirer.prompt(questions).then((responses) => {
-    console.log(responses);
-    //setting the choices to variables
     let shapeChoice = responses["shape"];
     let shapeColor = responses["logocolor"];
     let text = responses["text"];
     let textColor = responses["textcolor"];
     let filePath = "logo.svg";
     let userShape;
-    console.log(text);
-    console.log(textColor);
-    console.log(shapeChoice);
-    console.log(shapeColor);
+
     //if statements for the shape choices which pull in the shape object per the choice
     if (shapeChoice === "Square") {
       userShape = new Square();
@@ -84,10 +79,9 @@ function generateLogo() {
     svg.setShapeelement(userShape);
     // rendering the string that will go into the svg file
     svgString = svg.render();
-    console.log(svgString);
-    //writing file with the svgstring as the data to put into the file
+    
     writeToFile(filePath, svgString);
   });
 }
 
-generateLogo();
+logoGenerator();
